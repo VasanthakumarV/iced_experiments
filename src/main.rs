@@ -1,130 +1,27 @@
-use iced::{Align, Column, Container, Element, Length, Sandbox, Settings, Text};
+mod draggable;
 
-use drag::Square;
+use clap::{App, Arg};
+use iced::{Sandbox, Settings};
+
+use draggable::Draggable;
 
 fn main() -> iced::Result {
-    Example::run(Settings::default())
-}
+    let matches = App::new("Iced Experiments")
+        .version("0.1")
+        .about("Run simple iced applications")
+        .arg(
+            Arg::with_name("name")
+                .short("n")
+                .long("name")
+                .value_name("NAME")
+                .help("Name of the example to run")
+                .possible_values(&["draggable"])
+                .takes_value(true),
+        )
+        .get_matches();
 
-#[derive(Default)]
-struct Example {
-    drag: Square,
-}
-
-impl Sandbox for Example {
-    type Message = ();
-
-    fn new() -> Self {
-        Example::default()
-    }
-
-    fn title(&self) -> String {
-        String::from("Draggable")
-    }
-
-    fn update(&mut self, _message: ()) {}
-
-    fn view(&mut self) -> Element<()> {
-        let content = Column::new()
-            .padding(20)
-            .spacing(20)
-            .align_items(Align::Center)
-            .push(Text::new("Draggable Square").size(50))
-            .push(self.drag.view());
-
-        Container::new(content)
-            .width(Length::Fill)
-            .height(Length::Fill)
-            .into()
-    }
-}
-
-mod drag {
-    use iced::{
-        canvas::event::{self, Event},
-        canvas::Cache,
-        canvas::{Cursor, Geometry, Path, Program, Stroke},
-        mouse, Canvas, Color, Element, Length, Point, Rectangle, Size,
-    };
-
-    #[derive(Default)]
-    pub struct Square {
-        cache: Cache,
-        top_left: Point,
-        side: f32,
-        grabbed: bool,
-    }
-
-    impl Square {
-        pub fn view<'a>(&'a mut self) -> Element<'a, ()> {
-            Canvas::new(Square {
-                side: 50.0,
-                ..Square::default()
-            })
-            .width(Length::Fill)
-            .height(Length::Fill)
-            .into()
-        }
-    }
-
-    impl Program<()> for Square {
-        fn update(
-            &mut self,
-            event: Event,
-            bounds: Rectangle,
-            cursor: Cursor,
-        ) -> (event::Status, Option<()>) {
-            let cursor_position = if let Some(position) = cursor.position_in(&bounds) {
-                position
-            } else {
-                return (event::Status::Ignored, None);
-            };
-
-            let square = Rectangle::new(self.top_left, Size::new(self.side, self.side));
-
-            if square.contains(cursor_position) {
-                match event {
-                    Event::Mouse(mouse_event) => match mouse_event {
-                        mouse::Event::ButtonPressed(mouse::Button::Left) => {
-                            self.grabbed = true;
-                            return (event::Status::Captured, None);
-                        }
-                        mouse::Event::ButtonReleased(mouse::Button::Left) => {
-                            self.grabbed = false;
-                            return (event::Status::Captured, None);
-                        }
-                        _ => return (event::Status::Ignored, None),
-                    },
-                    _ => return (event::Status::Ignored, None),
-                }
-            } else {
-                match event {
-                    Event::Mouse(mouse_event) => match mouse_event {
-                        mouse::Event::CursorMoved { .. } => {
-                            if self.grabbed {
-                                self.top_left = cursor_position;
-                                self.cache.clear();
-                            }
-                            return (event::Status::Captured, None);
-                        }
-                        _ => return (event::Status::Ignored, None),
-                    },
-                    _ => return (event::Status::Ignored, None),
-                }
-            };
-        }
-
-        fn draw(&self, bounds: Rectangle, _cursor: Cursor) -> Vec<Geometry> {
-            let square = self.cache.draw(bounds.size(), |frame| {
-                frame.stroke(
-                    &Path::rectangle(Point::ORIGIN, frame.size()),
-                    Stroke::default(),
-                );
-                let square = Path::rectangle(self.top_left, Size::new(self.side, self.side));
-                frame.fill(&square, Color::BLACK);
-            });
-
-            vec![square]
-        }
+    match matches.value_of("name").unwrap_or("draggable") {
+        "draggable" => Draggable::run(Settings::default()),
+        _ => unreachable!(),
     }
 }
