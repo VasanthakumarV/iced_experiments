@@ -1,4 +1,4 @@
-This repo contains learning experiments for [iced](https://github.com/hecrj/iced) project.
+This repo contains personal experiments for learning [iced](https://github.com/hecrj/iced) gui library.
 
 ## Draggable Square
 
@@ -6,4 +6,12 @@ This repo contains learning experiments for [iced](https://github.com/hecrj/iced
 cargo run -- --name draggable
 ```
 
-![gif](./images/draggable.gif)
+![draggable](./images/draggable.gif)
+
+## Line Plot
+
+```rust
+cargo run -- --name lineplot
+```
+
+<img src="./images/lineplot.png" width="320">
