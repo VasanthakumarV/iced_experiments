@@ -2,7 +2,7 @@ This repo contains personal experiments for learning [iced](https://github.com/h
 
 ## Draggable Square
 
-```rust
+```shell
 cargo run -- --name draggable
 ```
 
@@ -10,8 +10,16 @@ cargo run -- --name draggable
 
 ## Line Plot
 
-```rust
+```shell
 cargo run -- --name lineplot
 ```
 
 <img src="./images/lineplot.png" width="320">
+
+## Scatter Plot
+
+```shell
+cargo run -- --name lineplot
+```
+
+![scatterplot](./images/scatterplot.gif)
