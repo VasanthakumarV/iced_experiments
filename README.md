@@ -23,3 +23,11 @@ cargo run -- --name lineplot
 ```
 
 ![scatterplot](./images/scatterplot.gif)
+
+## Side Drawer
+
+```shell
+cargo run -- --name sidedrawer
+```
+
+![sidedrawer](./images/sidedrawer.gif)

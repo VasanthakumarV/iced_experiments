@@ -1,6 +1,7 @@
 mod draggable;
 mod line_plot;
 mod scatter_plot;
+mod side_drawer;
 
 use clap::{App, Arg};
 use iced::{Sandbox, Settings};
@@ -8,6 +9,7 @@ use iced::{Sandbox, Settings};
 use draggable::Draggable;
 use line_plot::LinePlot;
 use scatter_plot::ScatterPlot;
+use side_drawer::SideDrawer;
 
 fn main() -> iced::Result {
     let matches = App::new("Iced Experiments")
@@ -19,7 +21,7 @@ fn main() -> iced::Result {
                 .long("name")
                 .value_name("NAME")
                 .help("Name of the example to run")
-                .possible_values(&["draggable", "lineplot", "scatterplot"])
+                .possible_values(&["draggable", "lineplot", "scatterplot", "sidedrawer"])
                 .takes_value(true),
         )
         .get_matches();
@@ -28,6 +30,7 @@ fn main() -> iced::Result {
         "draggable" => Draggable::run(Settings::default()),
         "lineplot" => LinePlot::run(Settings::default()),
         "scatterplot" => ScatterPlot::run(Settings::default()),
+        "sidedrawer" => SideDrawer::run(Settings::default()),
         _ => unreachable!(),
     }
 }
