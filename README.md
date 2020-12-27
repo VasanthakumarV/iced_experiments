@@ -31,3 +31,13 @@ cargo run -- --name sidedrawer
 ```
 
 ![sidedrawer](./images/sidedrawer.gif)
+
+## Zoomable Grid
+
+Does not pan, simply zooms to the top left corner.
+
+```shell
+cargo run -- --name zoomgrid
+```
+
+![zoomgrid](./images/zoomgrid.gif)
