@@ -41,3 +41,11 @@ cargo run -- --name zoomgrid
 ```
 
 ![zoomgrid](./images/zoomgrid.gif)
+
+## Pan Area
+
+```shell
+cargo run -- --name pan
+```
+
+![pan](./images/pan.gif)

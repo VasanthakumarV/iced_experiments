@@ -1,5 +1,6 @@
 mod draggable;
 mod line_plot;
+mod pan;
 mod scatter_plot;
 mod side_drawer;
 mod zoom_grid;
@@ -9,6 +10,7 @@ use iced::{Sandbox, Settings};
 
 use draggable::Draggable;
 use line_plot::LinePlot;
+use pan::Pan;
 use scatter_plot::ScatterPlot;
 use side_drawer::SideDrawer;
 use zoom_grid::ZoomGrid;
@@ -29,6 +31,7 @@ fn main() -> iced::Result {
                     "scatterplot",
                     "sidedrawer",
                     "zoomgrid",
+                    "pan",
                 ])
                 .takes_value(true),
         )
@@ -46,6 +49,10 @@ fn main() -> iced::Result {
         }),
         "sidedrawer" => SideDrawer::run(Settings::default()),
         "zoomgrid" => ZoomGrid::run(Settings::default()),
+        "pan" => Pan::run(Settings {
+            antialiasing: true,
+            ..Settings::default()
+        }),
         _ => unreachable!(),
     }
 }
